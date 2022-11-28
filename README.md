@@ -19,10 +19,11 @@ You can change to a different economic sector. Please save in an excel file unde
     pip install xml-python
     pip install bs4
     pip install numpy
-    pip install nltk
-    pip install mosestokenizer
 ```
-- After 
+- After you have completed the steps above, please go to your working directory and paste **main.py**, **load10K.py**, and **process10K.py** for testing the information retrieval process. Now you should have the code files as well as Energy_Sector.xlsx (or some other excel sheet with company ticker code) in your working directory
+- Please go to **main.py** and specify the `dir` as well as `excel_adrs`
+- You can run **main.py** now, results will be saved in **ProcessedFiles** under your working directory
+- You can upload **Filings.csv** and **Filings_Text.txt** to a shared location (e.g. github) and follow the steps in **Topic Modeling Demo.ipynb** and **Sentiment Analysis Demo.ipynb** for text mining
 
 ## Documentation
 - **main.py** is used to execute the pipeline
@@ -66,6 +67,9 @@ You can change to a different economic sector. Please save in an excel file unde
         - Outputs: None
 
 ## References
+#### **Edgar Downloader**
+- https://sec-edgar-downloader.readthedocs.io/en/latest/
+
 #### **Sentiment Analysis**
 - https://www.digitalocean.com/community/tutorials/how-to-perform-sentiment-analysis-in-python-3-using-the-natural-language-toolkit-nltk
 - https://realpython.com/python-nltk-sentiment-analysis/

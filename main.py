@@ -4,22 +4,32 @@ if __name__ == '__main__':
     import load10K
     import process10K
 
-    global outputLocation, companyFolders
-    #excel_adrs, dir, n_file, end_date = sys.argv
+    #######################
+    # PLEASE MODIFY BELOW #
+    #######################
     excel_adrs = '/Users/huiyinz/Desktop/UIUC/CS410/CourseProject/Energy_Sector.xlsx'
     dir = "/Users/huiyinz/Desktop/UIUC/CS410/CourseProject/"
-    n_file = 3
-    end_date = '2022-01-01'
+    
+    # You don't need to change this, but you are welcome to
+    n_file = 3 # Specify number of filings to download for each company
+    end_date = '2022-01-01' # Specify the maximum filing date
+
+    # If you want to run the main file in terminal
+    # you are welcome to use the code below instead
+    # excel_adrs, dir, n_file, end_date = sys.argv
 
     companyFolders = os.path.join(dir, "sec-edgar-filings")
     outputLocation = os.path.join(dir, "ProcessedFiles")
 
+    # Download filings
     load10K.load10K(excel_adrs, dir, n_file, end_date)
+    # Extract risk factors
     process10K.processFiles(outputLocation, companyFolders)
-
+    # Export results
     company_names = []
     company_records = []
     company_dates = []
+
     for folder in [os.path.join(outputLocation, x) for x in os.listdir(outputLocation)]:
         company = os.path.basename(folder)
         if company == '.DS_Store': continue

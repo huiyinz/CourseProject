@@ -1,3 +1,74 @@
-# CourseProject
+# Market Risk Analyzer
 
-Please fork this repository and paste the github link of your fork on Microsoft CMT. Detailed instructions are on Coursera under Week 1: Course Project Overview/Week 9 Activities.
+## Description
+This application targets to computationally analyze the market risk in certain economic sectors to help user make more informed investment decisions. There are three main components:
+
+1. Extract text description of risk from company 10-K filings
+2. Uncover shared topics from text descriptions of risk in companies within the same economic sector
+3. Analyze sentiments of text descriptions 
+
+## Pipeline
+For users / contributers, please follow these steps to test the application.
+- Please create a working directory. You can also use your desktop.
+- Please copy and paste your interested companies from: https://finviz.com/screener.ashx?v=111&f=geo_usa,sec_energy&o=-marketcap 
+You can change to a different economic sector. Please save in an excel file under your working directory. An example is Energy_Sector.xlsx
+- If you have not done so, please download necessary libraries:
+```
+    pip install sec-edgar-downloader
+    pip install pandas
+    pip install xml-python
+    pip install bs4
+    pip install numpy
+    pip install nltk
+    pip install mosestokenizer
+```
+- After 
+
+## Documentation
+- **main.py** is used to execute the pipeline
+- **load10K.py** is the first part of the information retrieval task to download 10-K filings of companies listed in the excel file from SEC with edgar downloader into the specified location
+- **process10K.py** performs the second part of the information task to extract the risk factors section from the downloaded html filings of companies. There are 9 functions in this file:
+    - tickerCheckProcessing
+        - Function: checks if the filing for the company is already processed
+        - Inputs: company ticker (string), file type (string, e.g. '10-K')
+        - Outputs: boolean
+    - outputCompletedFiles
+        - Function: writes the retrieved sections to designated location
+        - Inputs: extracted risk factors of all companies (dictionary of texts), file type (string, e.g. '10-K'), company ticker (string)
+        - Outputs: N/A
+    - getCompanyNameAndTime
+        - Function: extracts the company name and filing date
+        - Inputs: text string of company filing (string)
+        - Outputs: company name (string), period (string)
+    - getDocuments
+        - Function: extracts the actual body content from the filing html
+        - Inputs: text string of company filing (string), file type (string, e.g. '10-K')
+        - Outputs: body content (string), individual financial documents (dictionary)
+    - cleanText
+        - Function: extracts the company name and filing date
+        - Inputs: body content (string)
+        - Outputs: cleaned body content (string)
+    - treeToText
+        - Function: iteratively extract text from nodes in element tree, a newline is added after certain punctuations
+        - Inputs: root element of parsed tree (Element)
+        - Outputs: standardized xml selection (string)
+    - tagsToLower
+        - Function: standardize tags to lowercase to avoid possible parsing errors
+        - Inputs: unformatted xml selection (string)
+        - Outputs: cleaned text (string)
+    - getRiskSectionXML
+        - Function: Extract the Item 1A (Risk Factors) section from filing
+        - Inputs: text string of company filing (string), filing type (string)
+        - Outputs: xml-structured text for Item 1A (string)
+    - processFiles
+        - Function: Wrapper function for extracting the Item 1A (Risk Factors) section from each company's filing in the download folder and save the results in a txt file
+        - Inputs: output location (path), company filings main folder location (path), filing type (string)
+        - Outputs: None
+
+## References
+#### **Sentiment Analysis**
+- https://www.digitalocean.com/community/tutorials/how-to-perform-sentiment-analysis-in-python-3-using-the-natural-language-toolkit-nltk
+- https://realpython.com/python-nltk-sentiment-analysis/
+
+#### **Topic Modeling**
+- https://github.com/MilaNLProc/contextualized-topic-models

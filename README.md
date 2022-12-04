@@ -12,7 +12,7 @@ For users / contributers, please follow these steps to test the application.
 - Please create a working directory. You can also use your desktop.
 - Please copy and paste your interested companies [here](https://finviz.com/screener.ashx?v=111&f=geo_usa,sec_energy&o=-marketcap).
 You can change to a different economic sector. Please save in an excel file under your working directory. An example is Energy_Sector.xlsx
-- If you have not done so, please download necessary libraries:
+- If you have not done so, please download necessary libraries (note: I was using python 3.8.2 for testing the implementation):
 ```
     pip install sec-edgar-downloader
     pip install pandas

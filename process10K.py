@@ -9,12 +9,6 @@ from numpy import *
 import re
 import os
 
-#global outputLocation, companyFolders
-
-# Please modify the addresses below to your directory
-# companyFolders = "/Users/huiyinz/Desktop/UIUC/CS410/CourseProject/sec-edgar-filings"
-# outputLocation = "/Users/huiyinz/Desktop/UIUC/CS410/CourseProject/ProcessedFiles"
-
 def tickerCheckProcessing(ticker, fileType, outputLocation):
 # This function checks if the filing for the company is already processed
     if not os.path.exists(outputLocation):
@@ -134,10 +128,10 @@ def treeToText(tree):
                     line = " " + line
                 textList.append(line)
     completeText = "".join(textList)
+    
+    # Remove some unnecessary text (like item 1 business) accidentally extracted
     completeText = re.sub('(Table of Contents)|(TABLE OF CONTENTS)', '', completeText)
-
     start_pattern = re.compile(r'(I|i)(tem|TEM)\s*1\s*(A|a)\.\s*((R|I|S|K){4}\s*FACTOR(S){0,1}|((R|r|i|s|k){4}\s*(F|f)actor(s){0,1}))')
-
     if re.search(start_pattern, completeText) is not None:
         section_start = re.search(start_pattern, completeText).start()
         completeText = completeText[section_start:]
@@ -151,7 +145,8 @@ def tagsToLower(text):
         text = text[:t.start()] + text[t.start():t.end()].lower() + text[t.end():]
     return text
 
-def getRiskSectionXML(filing, fileType):
+def getRiskSectionXML(filing):
+# Extract risk section from the company filing (xml)
     item1APattern = re.compile(r'(>.{0,6}(Part)*.{0,6}I*.{0,6}(I|i)(tem|TEM).{0,6}1.{0,6}(A|a))')
     itemRegexPattern = re.compile(r'(>.{0,6}(Part)*.{0,6}I*.{0,6}(I|i)(tem|TEM).{0,6}((1.{0,6}(B|b))|2))')
     itemPattern = re.compile(r'>.{0,6}(I|i)(tem|TEM).{0,6}[0-9]{1,2}.{0,6}(A|a|B|b){0,1}.{0,6}<')
@@ -159,7 +154,8 @@ def getRiskSectionXML(filing, fileType):
     riskRegexPattern = r'((R|I|S|K){1,4}\s*FACTOR(S){0,1}|((R|r|i|s|k){1,4}\s*(F|f)actor(s){0,1}))(\.|\s|&#*[a-z0-9]{3,4};)*<\/*'
     xmlStartPattern = r'<[A-z]+'
     xmlEndPattern = r'[A-z0-9]+(\.)(&(#)*[a-z0-9]{3,4};)*\s*<\/[A-z]+'
-
+    
+    # Test multiple rounds to extract the correct portion
     if item1APattern.search(filing) is None:
         if re.search(riskRegexPattern, filing) is None:
             return "<data> </data>"
@@ -174,6 +170,7 @@ def getRiskSectionXML(filing, fileType):
         errors = False
         startIndex = itemStarts[count]
         try:
+            # Try cropping out the portion with complete xml tags
             startIndex = max([e.end() for e in re.finditer(r'</[A-z]+>', filing[:startIndex])])
             riskSection = filing[startIndex:]
             endIndex = itemRegexPattern.search(riskSection).start()
@@ -187,13 +184,15 @@ def getRiskSectionXML(filing, fileType):
         except Exception as e: errors = True
         if not errors: break
         count += 1
+    # Return empty string if nothing is found
     if errors: return "<data> </data>"
+    # Prepare cropped xml portion for parsing into text
     xmlToParse = "<data>" + riskSection[starts:ends] + "</data>"
     xmlToParse = cleanText(xmlToParse)
     xmlToParse = str(BeautifulSoup(xmlToParse, features="lxml").prettify())
     s = re.search(r'<data>', xmlToParse).start()
     e = re.search(r'</data>', xmlToParse).end()
-    xmlToParse = re.sub('\n', '', xmlToParse[s:e])
+    xmlToParse = re.sub('\n', ' ', xmlToParse[s:e])
     return xmlToParse
 
 def processFiles(outputLocation, companyFolders, fileType = '10-K'):
@@ -231,7 +230,7 @@ def processFiles(outputLocation, companyFolders, fileType = '10-K'):
                         filing, docs = getDocuments(textString, fileType)
                         company_name, label = getCompanyNameAndTime(textString)
                         try:
-                            xmlToParse = getRiskSectionXML(filing, fileType)
+                            xmlToParse = getRiskSectionXML(filing)
                             treeToParse = ET.fromstring(xmlToParse)
                         except Exception as e:
                             errors = True

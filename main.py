@@ -11,8 +11,8 @@ if __name__ == '__main__':
     dir = "/Users/huiyinz/Desktop/UIUC/CS410/CourseProject/"
     
     # You don't need to change this, but you are welcome to
-    n_file = 3 # Specify number of filings to download for each company
-    end_date = '2022-01-01' # Specify the maximum filing date
+    n_file = 5 # Specify number of filings to download for each company
+    end_date = '2022-12-01' # Specify the maximum filing date
 
     # If you want to run the main file in terminal
     # you are welcome to use the code below instead

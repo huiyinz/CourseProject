@@ -10,7 +10,7 @@ This application targets to computationally analyze the market risk in certain e
 ## Pipeline
 For users / contributers, please follow these steps to test the application.
 - Please create a working directory. You can also use your desktop.
-- Please copy and paste your interested companies from: https://finviz.com/screener.ashx?v=111&f=geo_usa,sec_energy&o=-marketcap 
+- Please copy and paste your interested companies [here](https://finviz.com/screener.ashx?v=111&f=geo_usa,sec_energy&o=-marketcap).
 You can change to a different economic sector. Please save in an excel file under your working directory. An example is Energy_Sector.xlsx
 - If you have not done so, please download necessary libraries:
 ```
@@ -23,7 +23,7 @@ You can change to a different economic sector. Please save in an excel file unde
 - After you have completed the steps above, please go to your working directory and paste **main.py**, **load10K.py**, and **process10K.py** for testing the information retrieval process. Now you should have the code files as well as Energy_Sector.xlsx (or some other excel sheet with company ticker code) in your working directory
 - Please go to **main.py** and specify the `dir` as well as `excel_adrs`
 - You can run **main.py** now, results will be saved in **ProcessedFiles** under your working directory
-- You can upload **Filings.csv** and **Filings_Text.txt** to a shared location (e.g. github) and follow the steps in **Topic Modeling Demo.ipynb** and **Sentiment Analysis Demo.ipynb** for text mining
+- You can upload **Filings.csv** and **Filings_Text.txt** to a shared location (e.g. github) and follow the steps in **[Topic Modeling Demo.ipynb](https://colab.research.google.com/drive/1x5Oyph2zefFCchmTH6R0a_YtmoyYqDDt?usp=sharing)** and **[Sentiment Analysis Demo.ipynb](https://colab.research.google.com/drive/1XbBkVJdI6wFgnxXKx3g4ZZ-L0OIe7wfW?usp=sharing)** for text mining
 
 ## Documentation
 - **main.py** is used to execute the pipeline

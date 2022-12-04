@@ -11,8 +11,8 @@ def load10K(excel_adrs = '/Users/huiyinz/Desktop/UIUC/CS410/CourseProject/Energy
 
     from sec_edgar_downloader import Downloader
     import pandas as pd
-    import process10K
 
+    print("Now downloading filings...\n")
     # Please copy and paste your interested companies from
     # https://finviz.com/screener.ashx?v=111&f=geo_usa,sec_energy&o=-marketcap
     # You can change to a different economic sector
@@ -27,7 +27,9 @@ def load10K(excel_adrs = '/Users/huiyinz/Desktop/UIUC/CS410/CourseProject/Energy
     tickers = list(companies['Ticker'])
 
     for ticker in tickers:
+        print("Downloading filings for ", ticker, '...')
         ticker = str(ticker)
         # Feel free to change the parameters, check documentations here:
         # https://pypi.org/project/sec-edgar-downloader/
         dl.get("10-K", ticker, amount = n_file, before = end_date)
+        print("done!")

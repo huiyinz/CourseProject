@@ -7,6 +7,9 @@ This application targets to computationally analyze the market risk in certain e
 2. Uncover shared topics from text descriptions of risk in companies within the same economic sector
 3. Analyze sentiments of text descriptions 
 
+## Presentation
+Please click [here](https://drive.google.com/file/d/1mkZ1n0QFDNkURG7WZ6eF9rHspblquq4v/view?usp=sharing) for the presentation :) 
+
 ## Pipeline
 For users / contributers, please follow these steps to test the application.
 - Please create a working directory. You can also use your desktop.
